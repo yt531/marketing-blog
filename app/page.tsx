@@ -27,7 +27,7 @@ export default async function HomePage() {
     <main className="max-w-4xl mx-auto px-4 py-10">
       <section className="text-center mb-16">
         <h1 className="text-4xl font-bold mb-4">掌握網路行銷的關鍵策略</h1>
-        <p className="text-xl text-gray-600 mb-6">歡迎來到我的部落格</p>
+        <p className="text-xl text-gray-600 mb-6">歡迎來到Jeff的部落格</p>
       </section>
 
       <section>

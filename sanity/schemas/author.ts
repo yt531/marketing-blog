@@ -30,8 +30,8 @@ export default defineType({
     defineField({
       name: "bio",
       title: "簡介",
-      type: "text",
-      rows: 3,
+      type: "array", // ✅ 改為陣列
+      of: [{ type: "block" }], // ✅ 指定內容為區塊 (Block Content)
     }),
   ],
 });
