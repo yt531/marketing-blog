@@ -72,7 +72,7 @@ export default function AboutPage() {
           <li>
             📧 Email:{" "}
             <a
-              href="mailto:jeff@example.com"
+              href="mailto:jeff@gmail.com"
               className="text-amber-900 hover:underline"
             >
               jeff@example.com
