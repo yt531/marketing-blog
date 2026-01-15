@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 🧋 黑糖珍奶配色系統 (Bubble Tea Theme) */
+  --color-cream-white: #fdfcf8; /* 鮮奶 (背景) - 溫潤不刺眼的米白 */
+  --color-milk-tea: #f4efe9; /* 奶茶 (Navbar/Footer) - 淡雅的奶茶色 */
+  --color-brown-sugar: #b06d43; /* 黑糖焦糖 (主色/按鈕/連結) - 溫暖的橘褐 */
+  --color-brown-sugar-dark: #8a522f; /* 焦黑糖 (Hover) - 深一點的焦糖 */
+  --color-tapioca-black: #2e2118; /* 黑珍珠 (標題) - 極深棕色，代替純黑 */
+  --color-coffee-brown: #43362e; /* 深咖啡 (內文) - 適合閱讀的深色 */
+  --color-milk-candy: #e8ded4; /* 牛奶糖 (標籤背景) - 柔和的淺褐 */
+  --color-dark-choco: #5c4033; /* 深褐 (標籤文字) */
+  --color-selection: #f3dcb8; /* 淡焦糖 (反白選取色) */
 }
+
+/* 移除 Dark Mode 設定，確保網站維持清爽淺色調 */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 將 CSS 變數對應到 Tailwind 的工具類別 */
+  --color-background: var(--color-cream-white);
+  --color-foreground: var(--color-coffee-brown);
+  --color-navbar: var(--color-milk-tea);
+  --color-primary: var(--color-brown-sugar);
+  --color-primary-hover: var(--color-brown-sugar-dark);
+  --color-heading: var(--color-tapioca-black);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* 標籤專用顏色 (Tag) */
+  --color-tag-bg: var(--color-milk-candy);
+  --color-tag-text: var(--color-dark-choco);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden; /* 防止意外的橫向捲動 */
 }
+
+/* 🧋 標題強化：像黑珍珠一樣顯眼 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  font-weight: 700; /* 加粗讓標題更清楚 */
+}
+
+/* 🔗 超連結：預設焦糖色 */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ✨ 魔法點綴：選取文字時的淡焦糖色 */
+::selection {
+  background: var(--color-selection);
+  color: var(--color-tapioca-black);
+}
+
+/* 🔘 元件：實心焦糖按鈕 */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white !important; /* 強制文字白色 */
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px; /* 圓角膠囊狀，比較溫潤 */
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px); /* 微微上浮效果 */
+  box-shadow: 0 4px 6px -1px rgba(176, 109, 67, 0.2); /* 淡淡的焦糖陰影 */
+}
+
+/* 🏷️ 標籤樣式：牛奶糖背景與深褐文字 */
