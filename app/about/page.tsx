@@ -28,7 +28,7 @@ export default function AboutPage() {
         {/* 右側：簡短介紹 */}
         <div className="text-center md:text-left">
           <h1 className="text-4xl font-bold mb-4 text-gray-900">
-            嗨，我是 <span className="text-indigo-600">Jeff</span> 👋
+            嗨，我是 <span className="text-amber-900">Jeff</span> 👋
           </h1>
           <p className="text-xl text-gray-600 mb-6 leading-relaxed">
             這是一個專注於網路行銷、SEO 策略與品牌故事的部落格。
@@ -73,14 +73,14 @@ export default function AboutPage() {
             📧 Email:{" "}
             <a
               href="mailto:jeff@example.com"
-              className="text-indigo-600 hover:underline"
+              className="text-amber-900 hover:underline"
             >
               jeff@example.com
             </a>
           </li>
           <li>
             📱 LinkedIn:{" "}
-            <a href="#" className="text-indigo-600 hover:underline">
+            <a href="#" className="text-amber-900 hover:underline">
               Jeff Profile
             </a>
           </li>
@@ -88,12 +88,12 @@ export default function AboutPage() {
       </div>
 
       {/* 底部 CTA */}
-      <div className="mt-16 text-center bg-indigo-50 rounded-2xl p-10">
+      <div className="mt-16 text-center bg-orange-100 rounded-2xl p-10">
         <h3 className="text-2xl font-bold mb-4">不想錯過最新文章？</h3>
         <p className="text-gray-600 mb-6">歡迎回到首頁查看更多行銷乾貨！</p>
         <Link
           href="/"
-          className="inline-block bg-indigo-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-indigo-700 transition shadow-lg hover:shadow-xl"
+          className="inline-block text-amber-900 bg-white px-8 py-3 rounded-full font-semibold hover:bg-[#e6992b] transition shadow-lg hover:shadow-xl"
         >
           閱讀文章 →
         </Link>

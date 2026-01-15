@@ -1,10 +1,111 @@
 import { client, urlFor } from "@/lib/sanity.client";
-import { PortableText } from "@portabletext/react";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
+// 設定快取更新時間 (60秒)
 export const revalidate = 60;
 
-// 1. 修改查詢指令：加入 categories[]->{title}
-// 意思：去 categories 欄位找，把裡面所有關聯到的分類(title)都抓出來
+// 1. 定義 PortableText 的渲染規則 (樣式設定)
+const myPortableTextComponents: PortableTextComponents = {
+  // (A) 自定義區塊類型
+  types: {
+    image: ({ value }: any) => {
+      if (!value?.asset?._ref) return null;
+      return (
+        <div className="my-8 overflow-hidden rounded-lg shadow-md">
+          <Image
+            src={urlFor(value).url()}
+            alt={value.alt || "文章圖片"}
+            width={800}
+            height={500}
+            className="w-full h-auto object-cover"
+          />
+          {value.alt && (
+            <p className="mt-2 text-center text-sm text-gray-500">
+              {value.alt}
+            </p>
+          )}
+        </div>
+      );
+    },
+    code: ({ value }: any) => {
+      return (
+        <div className="my-6 overflow-hidden rounded-lg bg-gray-900 p-4 text-white shadow-lg">
+          <div className="flex justify-between items-center mb-2 border-b border-gray-700 pb-2">
+            <span className="text-xs font-mono text-gray-400">
+              {value.language || "text"}
+            </span>
+            {value.filename && (
+              <span className="text-xs text-gray-500">{value.filename}</span>
+            )}
+          </div>
+          <pre className="overflow-x-auto">
+            <code className="font-mono text-sm">{value.code}</code>
+          </pre>
+        </div>
+      );
+    },
+  },
+
+  // (B) 自定義文字區塊
+  block: {
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-blue-500 bg-blue-50 py-3 pl-4 italic text-gray-700 my-6 rounded-r-lg">
+        {children}
+      </blockquote>
+    ),
+    h1: ({ children }) => (
+      <h1 className="text-3xl font-bold mt-10 mb-4 text-gray-900">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-2xl font-bold mt-8 mb-3 text-gray-800">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-xl font-bold mt-6 mb-2 text-gray-800">{children}</h3>
+    ),
+    normal: ({ children }) => (
+      <p className="mb-4 text-lg leading-relaxed text-gray-700">{children}</p>
+    ),
+  },
+
+  // (C) 自定義標記 (大字體、顏色、連結)
+  marks: {
+    big: ({ children }) => (
+      <span className="text-xl font-bold md:text-2xl text-gray-800 leading-tight">
+        {children}
+      </span>
+    ),
+    textColor: ({ children, value }: any) => {
+      const colorClass =
+        {
+          red: "text-red-600",
+          blue: "text-blue-600",
+          green: "text-green-600",
+          gray: "text-gray-500",
+        }[value?.color as string] || "text-gray-800";
+      return <span className={colorClass}>{children}</span>;
+    },
+    link: ({ children, value }) => {
+      const rel = !value.href.startsWith("/")
+        ? "noreferrer noopener"
+        : undefined;
+      return (
+        <a
+          href={value.href}
+          rel={rel}
+          className="text-blue-600 hover:underline decoration-blue-400 underline-offset-2"
+        >
+          {children}
+        </a>
+      );
+    },
+  },
+};
+
+// 2. 查詢指令：包含作者 Bio 和分類
 const query = `
   *[_type == "post" && slug.current == $slug][0] {
     title,
@@ -22,6 +123,7 @@ const query = `
   }
 `;
 
+// 3. 頁面主程式
 export default async function PostPage(props: {
   params: Promise<{ slug: string }>;
 }) {
@@ -29,13 +131,12 @@ export default async function PostPage(props: {
   const post = await client.fetch(query, { slug: params.slug });
 
   if (!post) {
-    return <div className="text-center py-20">找不到這篇文章</div>;
+    return <div className="text-center py-20 text-xl">找不到這篇文章</div>;
   }
 
   return (
     <article className="max-w-3xl mx-auto px-4 py-10">
-      {/* 頁面頂部：分類標籤區 (新功能 ✨) */}
-      {/* 只有當 post.categories 有資料時才顯示 */}
+      {/* 頁面頂部：分類標籤區 */}
       {post.categories && (
         <div className="flex justify-center gap-2 mb-4">
           {post.categories.map((category: any) => (
@@ -51,39 +152,50 @@ export default async function PostPage(props: {
 
       {/* 文章標題區 */}
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-bold mb-4 leading-tight">{post.title}</h1>
-        <p className="text-gray-500">
-          {new Date(post.publishedAt).toLocaleDateString("zh-TW")}
-          {post.author && ` · by ${post.author.name}`}
-        </p>
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight text-gray-900">
+          {post.title}
+        </h1>
+        <div className="text-gray-500 flex justify-center items-center gap-2 text-sm md:text-base">
+          <time dateTime={post.publishedAt}>
+            {new Date(post.publishedAt).toLocaleDateString("zh-TW", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+          {post.author && <span>· by {post.author.name}</span>}
+        </div>
       </header>
 
       {/* 封面圖片 */}
       {post.mainImage && (
         <div className="relative w-full h-64 md:h-96 mb-10 rounded-xl overflow-hidden shadow-lg">
-          <img
+          <Image
             src={urlFor(post.mainImage).url()}
             alt={post.title}
-            className="object-cover w-full h-full"
+            fill
+            className="object-cover"
+            priority
           />
         </div>
       )}
 
-      {/* 文章內文 */}
-      <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed mb-16">
-        <PortableText value={post.body} />
+      {/* 文章內文 (已套用樣式設定) */}
+      <div className="prose prose-lg prose-blue max-w-none text-gray-800 leading-relaxed mb-16">
+        <PortableText value={post.body} components={myPortableTextComponents} />
       </div>
 
       {/* 作者介紹卡片 */}
       {post.author && (
-        <div className="border-t pt-10 mt-10">
+        <div className="border-t border-gray-200 pt-10 mt-10">
           <div className="bg-gray-50 p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
             {post.author.image && (
-              <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-md">
-                <img
+              <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-md relative">
+                <Image
                   src={urlFor(post.author.image).width(200).height(200).url()}
                   alt={post.author.name}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
             )}
@@ -95,7 +207,13 @@ export default async function PostPage(props: {
               <h3 className="text-xl font-bold text-gray-900 mb-2">
                 {post.author.name}
               </h3>
-              <p className="text-gray-600 leading-relaxed">{post.author.bio}</p>
+              {post.author.bio ? (
+                <div className="text-gray-600 leading-relaxed">
+                  <PortableText value={post.author.bio} />
+                </div>
+              ) : (
+                <p className="text-gray-600">作者簡介尚未提供</p>
+              )}
             </div>
           </div>
         </div>
