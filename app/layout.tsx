@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css"; // 全域樣式保留在這裡，確保 Studio 也能吃到字體或基礎設定(如果有需要)
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Jeff 的行銷部落格",
   description: "分享網路行銷與 SEO 的實戰經驗",
+  // ✨ 這裡就是加入驗證碼的地方
+  verification: {
+    google: "T-C1mu7s8pJ3eq8MrhrWlIEMbYz3S4wJU0ztBh5fab0",
+  },
 };
 
 export default function RootLayout({
