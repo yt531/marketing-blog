@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
+import "./globals.css"; // 全域樣式保留在這裡，確保 Studio 也能吃到字體或基礎設定(如果有需要)
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,24 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW">
+      {/* 這裡保留 flex 設定是為了讓 WebsiteLayout 裡的 flex-grow 生效 */}
       <body
         className={`${inter.className} antialiased min-h-screen flex flex-col`}
       >
-        {/* Navbar */}
-        <Navbar />
-
-        {/* 主要內容區：設定 flex-grow 確保內容少時 footer 也會沉在底部 */}
-        <main className="flex-grow">{children}</main>
-
-        {/* Footer：淡奶茶色背景 (#f4efe9) */}
-        <footer className="bg-navbar text-center py-10 text-gray-500 text-sm mt-20 border-t border-orange-100/20">
-          <div className="max-w-4xl mx-auto px-4">
-            <p className="mb-2">
-              © {new Date().getFullYear()} Jeff's Marketing Blog
-            </p>
-            <p className="text-xs opacity-70">Brewed with ❤️ and Data</p>
-          </div>
-        </footer>
+        {children}
       </body>
     </html>
   );
