@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { client } from "@/lib/sanity.client";
 
 // 定義網址前綴 (請改成你的實際網域)
-const baseUrl = "https://你的網址.com";
+const baseUrl = "https://jeff-blog-tw.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 1. 抓取所有文章的 Slug
