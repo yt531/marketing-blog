@@ -14,13 +14,13 @@ export default function AboutPage() {
         {/* 左側：大頭照 */}
         <div className="shrink-0">
           <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white shadow-2xl">
-            {/* ⚠️ 注意：這裡暫時使用假圖，請看步驟 3 教你換成自己的照片 */}
             <Image
-              src="/me.png" // 只要寫 /me.jpg，Next.js 會自動去 public 資料夾找
+              src="/me.png"
               alt="Jeff 的大頭照"
               width={400}
               height={400}
               className="object-cover w-full h-full"
+              priority // ✨ 新增這一行：告訴瀏覽器這張圖很重要，要優先下載
             />
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
                 >
                   # {skill}
                 </span>
-              )
+              ),
             )}
           </div>
         </div>

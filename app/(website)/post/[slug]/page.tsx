@@ -1,7 +1,7 @@
 import { client, urlFor } from "@/lib/sanity.client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { Metadata } from "next"; // 引入 Metadata 型別
 
 // 設定快取更新時間 (60秒)
 export const revalidate = 60;
@@ -105,13 +105,14 @@ const myPortableTextComponents: PortableTextComponents = {
   },
 };
 
-// 2. 查詢指令：包含作者 Bio 和分類
+// 2. 定義資料抓取函式 (包含 SEO 描述)
 const query = `
   *[_type == "post" && slug.current == $slug][0] {
     title,
     mainImage,
     publishedAt,
     body,
+    seoDescription,
     author->{
       name,
       image,
@@ -123,12 +124,42 @@ const query = `
   }
 `;
 
-// 3. 頁面主程式
+async function getPost(slug: string) {
+  return await client.fetch(query, { slug });
+}
+
+// 3. 產生動態 SEO Metadata (關鍵修正)
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {
+      title: "文章不存在",
+    };
+  }
+
+  return {
+    title: `${post.title} | Jeff 的行銷部落格`,
+    description: post.seoDescription || "觀看 Jeff 的行銷實戰文章",
+    openGraph: {
+      title: post.title,
+      description: post.seoDescription,
+      images: post.mainImage ? [urlFor(post.mainImage).url()] : [],
+    },
+  };
+}
+
+// 4. 頁面主程式
 export default async function PostPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const params = await props.params;
-  const post = await client.fetch(query, { slug: params.slug });
+  const post = await getPost(params.slug);
 
   if (!post) {
     return <div className="text-center py-20 text-xl">找不到這篇文章</div>;

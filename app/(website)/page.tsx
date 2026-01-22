@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { client } from "@/lib/sanity.client";
 
-// 抓取資料的指令
+// ⚠️ 補回這段：抓取資料的指令 (這就是原本遺失的 query 變數)
 const query = `
   *[_type == "post"] {
     title,
@@ -23,8 +23,27 @@ export default async function HomePage() {
   // 抓取文章資料
   const posts = await client.fetch(query);
 
+  // 1. 定義結構化資料 (JSON-LD) - 這是新增的部分
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Jeff", // 請依需求修改
+    url: "https://jeff-marketing-blog.com", // 請依需求修改
+    jobTitle: "Marketing Specialist",
+    sameAs: [
+      "https://github.com/jeff-marketing",
+      "https://www.linkedin.com/in/jeff-marketing",
+    ],
+  };
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-10">
+      {/* 2. 插入 JSON-LD Script - 這是新增的部分 */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <section className="text-center mb-16">
         <h1 className="text-4xl font-bold mb-4">掌握網路行銷的關鍵策略</h1>
         <p className="text-xl text-gray-600 mb-6">歡迎來到Jeff的部落格</p>
@@ -42,7 +61,6 @@ export default async function HomePage() {
                 key={post.slug.current}
                 className="border p-6 rounded-lg shadow-sm hover:shadow-md transition"
               >
-                {/* 關鍵修正：這裡加回了 Link 標籤，把標題和按鈕包起來 */}
                 <Link href={`/post/${post.slug.current}`}>
                   <h3 className="text-2xl font-semibold mb-2 hover:text-blue-600">
                     {post.title}
