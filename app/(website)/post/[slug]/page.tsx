@@ -1,7 +1,8 @@
-import { client, urlFor } from "@/lib/sanity.client";
+// 👇 修正這裡：使用四個 "../" 回到最外層，才能找到 lib
+import { client, urlFor } from "../../../../lib/sanity.client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
-import { Metadata } from "next"; // 引入 Metadata 型別
+import { Metadata } from "next";
 
 // 設定快取更新時間 (60秒)
 export const revalidate = 60;
@@ -105,7 +106,7 @@ const myPortableTextComponents: PortableTextComponents = {
   },
 };
 
-// 2. 定義資料抓取函式 (包含 SEO 描述)
+// 2. 定義資料抓取函式
 const query = `
   *[_type == "post" && slug.current == $slug][0] {
     title,
@@ -125,10 +126,15 @@ const query = `
 `;
 
 async function getPost(slug: string) {
-  return await client.fetch(query, { slug });
+  try {
+    return await client.fetch(query, { slug });
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return null;
+  }
 }
 
-// 3. 產生動態 SEO Metadata (關鍵修正)
+// 3. 產生動態 SEO Metadata
 export async function generateMetadata({
   params,
 }: {
@@ -149,7 +155,10 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.seoDescription,
-      images: post.mainImage ? [urlFor(post.mainImage).url()] : [],
+      type: "article",
+      images: post.mainImage
+        ? [urlFor(post.mainImage).width(1200).height(630).url()]
+        : [],
     },
   };
 }
@@ -162,7 +171,14 @@ export default async function PostPage(props: {
   const post = await getPost(params.slug);
 
   if (!post) {
-    return <div className="text-center py-20 text-xl">找不到這篇文章</div>;
+    return (
+      <div className="text-center py-20 text-xl">
+        <h1 className="font-bold text-2xl mb-4">找不到這篇文章</h1>
+        <a href="/" className="text-blue-600 hover:underline">
+          返回首頁
+        </a>
+      </div>
+    );
   }
 
   return (
@@ -213,7 +229,14 @@ export default async function PostPage(props: {
 
       {/* 文章內文 (已套用樣式設定) */}
       <div className="prose prose-lg prose-blue max-w-none text-gray-800 leading-relaxed mb-16">
-        <PortableText value={post.body} components={myPortableTextComponents} />
+        {post.body ? (
+          <PortableText
+            value={post.body}
+            components={myPortableTextComponents}
+          />
+        ) : (
+          <p className="text-gray-500 italic">本篇文章暫無內容...</p>
+        )}
       </div>
 
       {/* 作者介紹卡片 */}

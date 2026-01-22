@@ -18,3 +18,6 @@ const builder = imageUrlBuilder(client);
 export function urlFor(source: any) {
   return builder.image(source);
 }
+
+// 👇 新增這一行：同時提供 Default Export，解決 sitemap 找不到 client 的問題
+export default client;
