@@ -150,7 +150,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${post.title} | Jeff 的行銷部落格`,
+    title: `${post.title} | Jeff's Blog`,
     description: post.seoDescription || "觀看 Jeff 的行銷實戰文章",
     openGraph: {
       title: post.title,
