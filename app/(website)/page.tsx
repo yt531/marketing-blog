@@ -47,7 +47,11 @@ export default async function Home() {
               {/* 底部區域：日期與按鈕，強制置底 */}
               <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
                 <span className="text-xs text-gray-400 font-medium">
-                  {new Date(post.publishedAt).toLocaleDateString()}
+                  {new Date(post.publishedAt).toLocaleDateString("zh-TW", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}
                 </span>
 
                 <Link
