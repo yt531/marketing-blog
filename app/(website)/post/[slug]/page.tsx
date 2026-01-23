@@ -1,8 +1,8 @@
-// 👇 修正這裡：使用四個 "../" 回到最外層，才能找到 lib
 import { client, urlFor } from "../../../../lib/sanity.client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import Image from "next/image";
 import { Metadata } from "next";
+import Link from "next/link";
 
 // 設定快取更新時間 (60秒)
 export const revalidate = 60;
@@ -14,7 +14,7 @@ const myPortableTextComponents: PortableTextComponents = {
     image: ({ value }: any) => {
       if (!value?.asset?._ref) return null;
       return (
-        <div className="my-8 overflow-hidden rounded-lg shadow-md">
+        <div className="my-8 overflow-hidden rounded-lg shadow-md border border-gray-100">
           <Image
             src={urlFor(value).url()}
             alt={value.alt || "文章圖片"}
@@ -32,7 +32,7 @@ const myPortableTextComponents: PortableTextComponents = {
     },
     code: ({ value }: any) => {
       return (
-        <div className="my-6 overflow-hidden rounded-lg bg-gray-900 p-4 text-white shadow-lg">
+        <div className="my-6 overflow-hidden rounded-lg bg-gray-900 p-4 text-white shadow-lg border border-gray-800">
           <div className="flex justify-between items-center mb-2 border-b border-gray-700 pb-2">
             <span className="text-xs font-mono text-gray-400">
               {value.language || "text"}
@@ -52,30 +52,30 @@ const myPortableTextComponents: PortableTextComponents = {
   // (B) 自定義文字區塊
   block: {
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-blue-500 bg-blue-50 py-3 pl-4 italic text-gray-700 my-6 rounded-r-lg">
+      <blockquote className="border-l-4 border-primary bg-gray-50 py-3 pl-4 italic text-gray-700 my-6 rounded-r-lg">
         {children}
       </blockquote>
     ),
     h1: ({ children }) => (
-      <h1 className="text-3xl font-bold mt-10 mb-4 text-gray-900">
-        {children}
-      </h1>
+      <h1 className="text-3xl font-bold mt-12 mb-6 text-heading">{children}</h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-2xl font-bold mt-8 mb-3 text-gray-800">{children}</h2>
+      <h2 className="text-2xl font-bold mt-10 mb-4 text-heading border-l-4 border-primary pl-4">
+        {children}
+      </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="text-xl font-bold mt-6 mb-2 text-gray-800">{children}</h3>
+      <h3 className="text-xl font-bold mt-8 mb-3 text-heading">{children}</h3>
     ),
     normal: ({ children }) => (
-      <p className="mb-4 text-lg leading-relaxed text-gray-700">{children}</p>
+      <p className="mb-6 text-lg leading-relaxed text-gray-700">{children}</p>
     ),
   },
 
   // (C) 自定義標記 (大字體、顏色、連結)
   marks: {
     big: ({ children }) => (
-      <span className="text-xl font-bold md:text-2xl text-gray-800 leading-tight">
+      <span className="text-xl font-bold md:text-2xl text-heading leading-tight">
         {children}
       </span>
     ),
@@ -97,7 +97,7 @@ const myPortableTextComponents: PortableTextComponents = {
         <a
           href={value.href}
           rel={rel}
-          className="text-blue-600 hover:underline decoration-blue-400 underline-offset-2"
+          className="text-primary hover:underline decoration-primary/50 underline-offset-2 transition-colors"
         >
           {children}
         </a>
@@ -173,23 +173,33 @@ export default async function PostPage(props: {
   if (!post) {
     return (
       <div className="text-center py-20 text-xl">
-        <h1 className="font-bold text-2xl mb-4">找不到這篇文章</h1>
-        <a href="/" className="text-blue-600 hover:underline">
+        <h1 className="font-bold text-2xl mb-4 text-heading">找不到這篇文章</h1>
+        <Link href="/" className="text-primary hover:underline">
           返回首頁
-        </a>
+        </Link>
       </div>
     );
   }
 
   return (
-    <article className="max-w-3xl mx-auto px-4 py-10">
+    <article className="max-w-3xl mx-auto px-5 py-12">
+      {/* 麵包屑導航 */}
+      <div className="mb-8">
+        <Link
+          href="/"
+          className="text-sm text-gray-500 hover:text-primary transition-colors flex items-center gap-1"
+        >
+          ← 回到首頁
+        </Link>
+      </div>
+
       {/* 頁面頂部：分類標籤區 */}
       {post.categories && (
-        <div className="flex justify-center gap-2 mb-4">
+        <div className="flex justify-center gap-2 mb-6">
           {post.categories.map((category: any) => (
             <span
               key={category.title}
-              className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-medium tracking-wide"
+              className="bg-orange-50 text-primary text-xs px-3 py-1 rounded-full font-medium tracking-wide border border-orange-100"
             >
               {category.title}
             </span>
@@ -199,10 +209,10 @@ export default async function PostPage(props: {
 
       {/* 文章標題區 */}
       <header className="mb-10 text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight text-gray-900">
+        <h1 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight text-heading tracking-tight">
           {post.title}
         </h1>
-        <div className="text-gray-500 flex justify-center items-center gap-2 text-sm md:text-base">
+        <div className="text-gray-500 flex justify-center items-center gap-2 text-sm md:text-base font-medium">
           <time dateTime={post.publishedAt}>
             {new Date(post.publishedAt).toLocaleDateString("zh-TW", {
               year: "numeric",
@@ -210,13 +220,18 @@ export default async function PostPage(props: {
               day: "numeric",
             })}
           </time>
-          {post.author && <span>· by {post.author.name}</span>}
+          {post.author && (
+            <>
+              <span className="text-gray-300">|</span>
+              <span className="text-heading">by {post.author.name}</span>
+            </>
+          )}
         </div>
       </header>
 
       {/* 封面圖片 */}
       {post.mainImage && (
-        <div className="relative w-full h-64 md:h-96 mb-10 rounded-xl overflow-hidden shadow-lg">
+        <div className="relative w-full aspect-video mb-12 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
           <Image
             src={urlFor(post.mainImage).url()}
             alt={post.title}
@@ -228,7 +243,7 @@ export default async function PostPage(props: {
       )}
 
       {/* 文章內文 (已套用樣式設定) */}
-      <div className="prose prose-lg prose-blue max-w-none text-gray-800 leading-relaxed mb-16">
+      <div className="prose prose-lg prose-gray max-w-none mb-16">
         {post.body ? (
           <PortableText
             value={post.body}
@@ -242,7 +257,7 @@ export default async function PostPage(props: {
       {/* 作者介紹卡片 */}
       {post.author && (
         <div className="border-t border-gray-200 pt-10 mt-10">
-          <div className="bg-gray-50 p-6 rounded-2xl flex flex-col md:flex-row items-center gap-6">
+          <div className="bg-gray-50 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-8 shadow-sm border border-gray-100">
             {post.author.image && (
               <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-md relative">
                 <Image
@@ -254,19 +269,19 @@ export default async function PostPage(props: {
               </div>
             )}
 
-            <div className="text-center md:text-left">
-              <p className="text-sm text-gray-500 uppercase tracking-wider font-bold mb-1">
+            <div className="text-center md:text-left flex-grow">
+              <p className="text-xs text-primary uppercase tracking-wider font-bold mb-2">
                 關於作者
               </p>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-bold text-heading mb-3">
                 {post.author.name}
               </h3>
               {post.author.bio ? (
-                <div className="text-gray-600 leading-relaxed">
+                <div className="text-gray-600 leading-relaxed text-sm">
                   <PortableText value={post.author.bio} />
                 </div>
               ) : (
-                <p className="text-gray-600">作者簡介尚未提供</p>
+                <p className="text-gray-600 text-sm">作者簡介尚未提供</p>
               )}
             </div>
           </div>

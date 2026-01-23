@@ -1,9 +1,10 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import imageUrlBuilder from "@sanity/image-url"; // 1. 引入圖片處理工具
 
 export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
-const apiVersion = "2023-05-03";
+export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+export const apiVersion =
+  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2023-05-03";
 
 export const client = createClient({
   projectId,
@@ -12,12 +13,28 @@ export const client = createClient({
   useCdn: false,
 });
 
-// --- 新增：圖片處理工具 ---
+// 2. 設定圖片網址產生器
 const builder = imageUrlBuilder(client);
 
+// 3. 匯出 urlFor 函式，這就是錯誤訊息說「找不到」的部分
 export function urlFor(source: any) {
   return builder.image(source);
 }
 
-// 👇 新增這一行：同時提供 Default Export，解決 sitemap 找不到 client 的問題
-export default client;
+// 取得所有文章
+export async function getPosts() {
+  const query = `*[_type == "post"] {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    mainImage {
+      asset -> {
+        url
+      }
+    },
+    body
+  } | order(publishedAt desc)`;
+
+  return client.fetch(query);
+}

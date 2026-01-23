@@ -1,82 +1,80 @@
+import { getPosts } from "@/lib/sanity.client";
+import Image from "next/image";
 import Link from "next/link";
-import { client } from "@/lib/sanity.client";
 
-// ⚠️ 補回這段：抓取資料的指令 (這就是原本遺失的 query 變數)
-const query = `
-  *[_type == "post"] {
-    title,
-    slug,
-    publishedAt,
-    seoDescription
-  } | order(publishedAt desc)
-`;
-
-// 設定每 60 秒更新一次資料
-export const revalidate = 60;
-
-export default async function HomePage() {
-  // 防呆：如果沒設定 ID
-  if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-    return <div className="p-10 text-red-600">請檢查 .env.local 設定</div>;
-  }
-
-  // 抓取文章資料
-  const posts = await client.fetch(query);
-
-  // 1. 定義結構化資料 (JSON-LD) - 這是新增的部分
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Jeff", // 請依需求修改
-    url: "https://jeff-marketing-blog.com", // 請依需求修改
-    jobTitle: "Marketing Specialist",
-    sameAs: [
-      "https://github.com/jeff-marketing",
-      "https://www.linkedin.com/in/jeff-marketing",
-    ],
-  };
+export default async function Home() {
+  const posts = await getPosts();
 
   return (
-    <main className="max-w-4xl mx-auto px-4 py-10">
-      {/* 2. 插入 JSON-LD Script - 這是新增的部分 */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    // 1. 外層容器：根據你的規劃，設定電腦版最大寬度與內距
+    <div className="max-w-7xl mx-auto px-5 py-12">
+      <h1 className="text-3xl md:text-5xl font-bold mb-12 text-heading text-center">
+        最新文章
+      </h1>
 
-      <section className="text-center mb-16">
-        <h1 className="text-4xl font-bold mb-4">掌握網路行銷的關鍵策略</h1>
-        <p className="text-xl text-gray-600 mb-6">歡迎來到Jeff的部落格</p>
-      </section>
+      {/* 2. 響應式 Grid 佈局：手機 1 欄 / 平板 2 欄 / 電腦 3 欄 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {posts.map((post) => (
+          <article
+            key={post._id}
+            // 3. 卡片容器：h-full 確保高度一致，flex-col 讓內容垂直排列
+            className="flex flex-col bg-white rounded-2xl shadow-sm border border-orange-100/50 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full"
+          >
+            {/* 圖片區域：固定高度，寬度填滿 */}
+            {post.mainImage && (
+              <div className="relative w-full h-56 flex-shrink-0 bg-gray-100">
+                <Image
+                  src={post.mainImage.asset.url}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
 
-      <section>
-        <h2 className="text-2xl font-bold mb-6 border-b pb-2">最新文章</h2>
+            {/* 內容區域：flex-col + flex-grow 實現對齊魔法 */}
+            <div className="flex flex-col flex-grow p-6">
+              {/* 標題：限制 2 行 */}
+              <h2 className="text-xl font-bold mb-3 text-heading hover:text-primary transition-colors line-clamp-2 leading-tight">
+                <Link href={`/post/${post.slug.current}`}>{post.title}</Link>
+              </h2>
 
-        <div className="grid gap-8">
-          {posts.length === 0 ? (
-            <p className="text-gray-500">目前還沒有文章，請到後台新增。</p>
-          ) : (
-            posts.map((post: any) => (
-              <article
-                key={post.slug.current}
-                className="border p-6 rounded-lg shadow-sm hover:shadow-md transition"
-              >
-                <Link href={`/post/${post.slug.current}`}>
-                  <h3 className="text-2xl font-semibold mb-2 hover:text-blue-600">
-                    {post.title}
-                  </h3>
+              {/* 摘要：flex-grow 自動佔據剩餘空間，推擠下方按鈕 */}
+              <p className="text-gray-600 mb-6 line-clamp-3 text-sm flex-grow">
+                {post.body?.[0]?.children?.[0]?.text || "點擊閱讀更多內容..."}
+              </p>
 
-                  <p className="text-gray-700 mb-4">{post.seoDescription}</p>
+              {/* 底部區域：日期與按鈕，強制置底 */}
+              <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
+                <span className="text-xs text-gray-400 font-medium">
+                  {new Date(post.publishedAt).toLocaleDateString()}
+                </span>
 
-                  <span className="text-blue-600 font-medium group-hover:underline">
-                    閱讀完整文章 →
-                  </span>
+                <Link
+                  href={`/post/${post.slug.current}`}
+                  className="text-sm font-semibold text-primary hover:text-primary/80 flex items-center gap-1 group"
+                >
+                  閱讀文章
+                  {/* 箭頭圖示，Hover 時會稍微移動 */}
+                  <svg
+                    className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
                 </Link>
-              </article>
-            ))
-          )}
-        </div>
-      </section>
-    </main>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
