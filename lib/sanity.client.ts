@@ -21,8 +21,28 @@ export function urlFor(source: any) {
   return builder.image(source);
 }
 
+// 文章類型定義
+export interface Post {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  publishedAt: string;
+  mainImage?: {
+    asset: {
+      url: string;
+    };
+  };
+  body?: Array<{
+    children?: Array<{
+      text?: string;
+    }>;
+  }>;
+}
+
 // 取得所有文章
-export async function getPosts() {
+export async function getPosts(): Promise<Post[]> {
   const query = `*[_type == "post"] {
     _id,
     title,

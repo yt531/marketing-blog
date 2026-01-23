@@ -1,4 +1,4 @@
-import { getPosts } from "@/lib/sanity.client";
+import { getPosts, type Post } from "@/lib/sanity.client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ export default async function Home() {
 
       {/* 2. 響應式 Grid 佈局：手機 1 欄 / 平板 2 欄 / 電腦 3 欄 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {posts.map((post) => (
+        {posts.map((post: Post) => (
           <article
             key={post._id}
             // 3. 卡片容器：h-full 確保高度一致，flex-col 讓內容垂直排列
