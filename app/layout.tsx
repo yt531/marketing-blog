@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// 1. 引入 Google Analytics 套件
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +28,9 @@ export default function RootLayout({
       >
         {children}
       </body>
+      
+      {/* 2. 插入 Google Analytics 元件 (ID 已填入) */}
+      <GoogleAnalytics gaId="G-HZXCPQTZEB" />
     </html>
   );
 }
