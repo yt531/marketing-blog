@@ -30,7 +30,7 @@ export default function AboutPage() {
           <h1 className="text-4xl font-bold mb-4 text-gray-900">
             嗨，我是 <span className="text-amber-900">Jeff</span> 👋
           </h1>
-          <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+          <p className="text-xl text-gray-700 mb-6 leading-relaxed">
             這是一個專注於網路行銷、SEO 策略與品牌故事的部落格。
             我致力於用最白話的方式，分享複雜的行銷概念。
           </p>
@@ -90,7 +90,7 @@ export default function AboutPage() {
       {/* 底部 CTA */}
       <div className="mt-16 text-center bg-orange-100 rounded-2xl p-10">
         <h3 className="text-2xl font-bold mb-4">不想錯過最新文章？</h3>
-        <p className="text-gray-600 mb-6">歡迎回到首頁查看更多行銷乾貨！</p>
+        <p className="text-gray-700 mb-6">歡迎回到首頁查看更多行銷乾貨！</p>
         <Link
           href="/"
           className="inline-block text-amber-900 bg-white px-8 py-3 rounded-full font-semibold hover:bg-[#e6992b] transition shadow-lg hover:shadow-xl"

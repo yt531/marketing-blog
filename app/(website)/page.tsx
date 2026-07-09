@@ -43,13 +43,13 @@ export default async function Home() {
               </h2>
 
               {/* 摘要：flex-grow 自動佔據剩餘空間，推擠下方按鈕 */}
-              <p className="text-gray-600 mb-6 line-clamp-3 text-sm flex-grow">
+              <p className="text-gray-700 mb-6 line-clamp-3 text-sm flex-grow">
                 {post.body?.[0]?.children?.[0]?.text || "點擊閱讀更多內容..."}
               </p>
 
               {/* 底部區域：日期與按鈕，強制置底 */}
               <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
-                <span className="text-xs text-gray-500 font-medium">
+                <span className="text-xs text-gray-700 font-medium">
                   {new Date(post.publishedAt).toLocaleDateString("zh-TW", {
                     year: "numeric",
                     month: "2-digit",

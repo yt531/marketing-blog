@@ -61,13 +61,13 @@ const nextConfig: NextConfig = {
               // 程式碼 (Script)：
               // 'unsafe-eval' 和 'unsafe-inline' 是 Next.js 開發模式必須的
               // 👇 未來如果要加 Google Ads，請在後面加上 https://pagead2.googlesyndication.com
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com;",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://va.vercel-scripts.com https://www.googletagmanager.com https://www.google-analytics.com https://pagead2.googlesyndication.com;",
 
               // 樣式 (Style)：允許自己和行內樣式
               "style-src 'self' 'unsafe-inline';",
 
               // 圖片 (Image)：允許自己、Sanity、以及 Base64 格式
-              "img-src 'self' blob: data: https://cdn.sanity.io https://www.google-analytics.com https://www.googletagmanager.com;",
+              "img-src 'self' blob: data: https://cdn.sanity.io https://www.google-analytics.com https://www.googletagmanager.com https://pagead2.googlesyndication.com;",
 
               // 字型 (Font)：只允許自己 (如果有用 Google Fonts 需加 https://fonts.gstatic.com)
               "font-src 'self';",
@@ -77,7 +77,7 @@ const nextConfig: NextConfig = {
 
               // 連線 (API 呼叫)：允許自己和 Sanity API
               // 如果有錯誤，請加上 https://*.sanity.io
-              "connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://analytics.google.com;",
+              "connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://analytics.google.com https://pagead2.googlesyndication.com;",
 
               // 禁止使用 <object> 標籤 (Flash 等舊技術)
               "object-src 'none';",
