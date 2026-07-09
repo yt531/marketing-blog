@@ -9,6 +9,7 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { codeInput } from "@sanity/code-input"; // 1. 引入程式碼插件
 import { schema } from "./sanity/schema";
+import { structure } from "./sanity/structure";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
@@ -20,7 +21,7 @@ export default defineConfig({
   // 這裡我們引入之前寫好的 schema (包含 post)
   schema,
   plugins: [
-    structureTool(), // 這是後台的左側選單工具
+    structureTool({ structure }), // 這是後台的左側選單工具
     codeInput(), // 2. 在這裡啟用插件
   ],
 });
