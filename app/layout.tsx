@@ -3,11 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 // 1. 引入 Google Analytics 套件
 import { GoogleAnalytics } from '@next/third-parties/google';
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jeff 的行銷部落格",
+  title: "Jeff's Blog",
   description: "分享網路行銷與 SEO 的實戰經驗",
   // ✨ 這裡就是加入驗證碼的地方
   verification: {
