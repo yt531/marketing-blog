@@ -23,16 +23,12 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "critters": "^0.0.22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "^16.2.10",
     "tailwindcss": "^4",
     "typescript": "^5.9.3"
-  },
-  "browserslist": [
-    ">0.3%",
-    "not dead",
-    "not op_mini all"
-  ]
+  }
 }

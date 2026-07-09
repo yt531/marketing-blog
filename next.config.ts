@@ -15,6 +15,13 @@ const nextConfig: NextConfig = {
   },
 
   // -------------------------------------------------------------------------
+  // 3. 實驗性功能設定
+  // -------------------------------------------------------------------------
+  experimental: {
+    optimizeCss: true, // 解決阻斷算繪的 CSS 要求
+  },
+
+  // -------------------------------------------------------------------------
   // 2. 安全標頭設定 (Security Headers) - 防止病毒與惡意廣告
   // -------------------------------------------------------------------------
   async headers() {
@@ -70,7 +77,7 @@ const nextConfig: NextConfig = {
 
               // 連線 (API 呼叫)：允許自己和 Sanity API
               // 如果有錯誤，請加上 https://*.sanity.io
-              "connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com;",
+              "connect-src 'self' https://*.sanity.io https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net https://www.google.com https://analytics.google.com;",
 
               // 禁止使用 <object> 標籤 (Flash 等舊技術)
               "object-src 'none';",

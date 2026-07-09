@@ -19,7 +19,7 @@ export default function WebsiteLayout({
           <p className="mb-2">
             © {new Date().getFullYear()} Jeff's Blog
           </p>
-          <p className="text-xs text-gray-500">Brewed with ❤️ and Data</p>
+          <p className="text-xs text-gray-700">Brewed with ❤️ and Data</p>
         </div>
       </footer>
     </>

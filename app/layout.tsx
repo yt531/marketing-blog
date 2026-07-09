@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-// 1. 引入 Google Analytics 套件
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,9 +30,21 @@ export default function RootLayout({
       >
         {children}
       </body>
-      
-      {/* 2. 插入 Google Analytics 元件 (ID 已填入) */}
-      <GoogleAnalytics gaId="G-HZXCPQTZEB" />
+      {/* 2. 插入 Google Analytics 腳本 (以 lazyOnload 延遲載入) */}
+      <Script
+        strategy="lazyOnload"
+        src={`https://www.googletagmanager.com/gtag/js?id=G-HZXCPQTZEB`}
+      />
+      <Script strategy="lazyOnload" id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-HZXCPQTZEB', {
+            page_path: window.location.pathname,
+          });
+        `}
+      </Script>
     </html>
   );
 }
