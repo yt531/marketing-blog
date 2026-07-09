@@ -56,5 +56,5 @@ export async function getPosts(): Promise<Post[]> {
     body
   } | order(publishedAt desc)`;
 
-  return client.fetch(query);
+  return client.fetch(query, {}, { next: { revalidate: 60 } });
 }
