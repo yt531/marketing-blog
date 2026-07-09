@@ -1,5 +1,5 @@
 import { getPosts, type Post } from "@/lib/sanity.client";
-import Image from "next/image";
+import SanityImage from "@/components/SanityImage";
 import Link from "next/link";
 
 export default async function Home() {
@@ -23,13 +23,14 @@ export default async function Home() {
             {/* 圖片區域：固定高度，寬度填滿 */}
             {post.mainImage && (
               <div className="relative w-full h-56 flex-shrink-0 bg-gray-100">
-                <Image
+                <SanityImage
                   src={post.mainImage.asset.url}
                   alt={post.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 768px) calc(100vw - 40px), (max-width: 1200px) calc(50vw - 40px), 33vw"
                   className="object-cover"
                   priority={index < 3}
+                  fetchPriority={index < 3 ? "high" : "auto"}
                 />
               </div>
             )}

@@ -1,6 +1,6 @@
 import { client, urlFor } from "../../../../lib/sanity.client";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
-import Image from "next/image";
+import SanityImage from "@/components/SanityImage";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ const myPortableTextComponents: PortableTextComponents = {
       if (!value?.asset?._ref) return null;
       return (
         <div className="my-8 overflow-hidden rounded-lg shadow-md border border-gray-100">
-          <Image
+          <SanityImage
             src={urlFor(value).url()}
             alt={value.alt || "文章圖片"}
             width={800}
@@ -232,12 +232,14 @@ export default async function PostPage(props: {
       {/* 封面圖片 */}
       {post.mainImage && (
         <div className="relative w-full aspect-video mb-12 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
-          <Image
+          <SanityImage
             src={urlFor(post.mainImage).url()}
             alt={post.title}
             fill
+            sizes="(max-width: 768px) 100vw, 768px"
             className="object-cover"
             priority
+            fetchPriority="high"
           />
         </div>
       )}
@@ -260,10 +262,11 @@ export default async function PostPage(props: {
           <div className="bg-gray-50 p-8 rounded-2xl flex flex-col md:flex-row items-center gap-8 shadow-sm border border-gray-100">
             {post.author.image && (
               <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-4 border-white shadow-md relative">
-                <Image
+                <SanityImage
                   src={urlFor(post.author.image).width(200).height(200).url()}
                   alt={post.author.name}
                   fill
+                  sizes="96px"
                   className="object-cover"
                 />
               </div>
