@@ -14,7 +14,7 @@ export default async function Home() {
 
       {/* 2. 響應式 Grid 佈局：手機 1 欄 / 平板 2 欄 / 電腦 3 欄 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {posts.map((post: Post) => (
+        {posts.map((post: Post, index: number) => (
           <article
             key={post._id}
             // 3. 卡片容器：h-full 確保高度一致，flex-col 讓內容垂直排列
@@ -29,6 +29,7 @@ export default async function Home() {
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
+                  priority={index < 3}
                 />
               </div>
             )}

@@ -16,7 +16,7 @@ export default function Navbar() {
           className="text-2xl font-bold text-heading hover:opacity-80 transition-opacity tracking-tight"
           onClick={() => setIsOpen(false)} // 點擊 Logo 關閉選單，提供更好的體驗
         >
-          Jeff<span className="text-primary">.Marketing</span>
+          Jeff's <span className="text-primary">Blog</span>
         </Link>
 
         {/* 3. 桌面版選單 
