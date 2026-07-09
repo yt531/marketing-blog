@@ -1,0 +1,31 @@
+version: 2
+updates:
+  # 針對 npm (package.json) 進行更新檢查
+  - package-ecosystem: "npm"
+    
+    # 指定 package.json 所在的目錄 (根目錄)
+    directory: "/"
+    
+    # 檢查更新的頻率：weekly (每週), daily (每天), 或 monthly (每月)
+    schedule:
+      interval: "weekly"
+      
+    # 設定分組 (Groups)，這樣 Dependabot 會將相關套件的更新合併成一個 PR，減少通知干擾
+    groups:
+      sanity-updates:
+        patterns:
+          - "sanity"
+          - "next-sanity"
+          - "@sanity/*"
+          - "@portabletext/*"
+      next-updates:
+        patterns:
+          - "next"
+          - "react"
+          - "react-dom"
+          - "@next/*"
+      ui-updates:
+        patterns:
+          - "styled-components"
+          - "tailwindcss"
+          - "@tailwindcss/*"
