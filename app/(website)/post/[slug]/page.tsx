@@ -23,7 +23,7 @@ const myPortableTextComponents: PortableTextComponents = {
             className="w-full h-auto object-cover"
           />
           {value.alt && (
-            <p className="mt-2 text-center text-sm text-gray-500">
+            <p className="mt-2 text-center text-sm text-gray-700">
               {value.alt}
             </p>
           )}
@@ -38,7 +38,7 @@ const myPortableTextComponents: PortableTextComponents = {
               {value.language || "text"}
             </span>
             {value.filename && (
-              <span className="text-xs text-gray-500">{value.filename}</span>
+              <span className="text-xs text-gray-700">{value.filename}</span>
             )}
           </div>
           <pre className="overflow-x-auto">
@@ -85,7 +85,7 @@ const myPortableTextComponents: PortableTextComponents = {
           red: "text-red-600",
           blue: "text-blue-600",
           green: "text-green-600",
-          gray: "text-gray-500",
+          gray: "text-gray-700",
         }[value?.color as string] || "text-gray-800";
       return <span className={colorClass}>{children}</span>;
     },
@@ -187,7 +187,7 @@ export default async function PostPage(props: {
       <div className="mb-8">
         <Link
           href="/"
-          className="text-sm text-gray-500 hover:text-primary transition-colors flex items-center gap-1"
+          className="text-sm text-gray-700 hover:text-primary transition-colors flex items-center gap-1"
         >
           ← 回到首頁
         </Link>
@@ -212,7 +212,7 @@ export default async function PostPage(props: {
         <h1 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight text-heading tracking-tight">
           {post.title}
         </h1>
-        <div className="text-gray-500 flex justify-center items-center gap-2 text-sm md:text-base font-medium">
+        <div className="text-gray-700 flex justify-center items-center gap-2 text-sm md:text-base font-medium">
           <time dateTime={post.publishedAt}>
             {new Date(post.publishedAt).toLocaleDateString("zh-TW", {
               year: "numeric",
@@ -252,7 +252,7 @@ export default async function PostPage(props: {
             components={myPortableTextComponents}
           />
         ) : (
-          <p className="text-gray-500 italic">本篇文章暫無內容...</p>
+          <p className="text-gray-700 italic">本篇文章暫無內容...</p>
         )}
       </div>
 
@@ -280,11 +280,11 @@ export default async function PostPage(props: {
                 {post.author.name}
               </h3>
               {post.author.bio ? (
-                <div className="text-gray-600 leading-relaxed text-sm">
+                <div className="text-gray-700 leading-relaxed text-sm">
                   <PortableText value={post.author.bio} />
                 </div>
               ) : (
-                <p className="text-gray-600 text-sm">作者簡介尚未提供</p>
+                <p className="text-gray-700 text-sm">作者簡介尚未提供</p>
               )}
             </div>
           </div>

@@ -1,5 +1,3 @@
-chrome >= 90
-firefox >= 90
-safari >= 15
-edge >= 90
-ios >= 15
+> 0.5%
+last 2 versions
+not dead

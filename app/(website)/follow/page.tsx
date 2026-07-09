@@ -8,7 +8,7 @@ export default function FollowPage() {
         <h1 className="text-3xl font-bold text-heading mb-4">
           追蹤最新動態 🧋
         </h1>
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-gray-700 leading-relaxed">
           不想錯過最新的行銷乾貨與 SEO 實戰經驗嗎？
           <br />
           選擇你最喜歡的方式，與我保持聯繫！
@@ -31,7 +31,7 @@ export default function FollowPage() {
             <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
               Instagram
             </h3>
-            <p className="text-xs text-gray-500">生活日常與圖文懶人包</p>
+            <p className="text-xs text-gray-700">生活日常與圖文懶人包</p>
           </div>
         </a>
 
@@ -49,7 +49,7 @@ export default function FollowPage() {
             <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
               Facebook
             </h3>
-            <p className="text-xs text-gray-500">行銷觀點與社團討論</p>
+            <p className="text-xs text-gray-700">行銷觀點與社團討論</p>
           </div>
         </a>
 
@@ -67,7 +67,7 @@ export default function FollowPage() {
             <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
               Threads
             </h3>
-            <p className="text-xs text-gray-500">即時碎碎念與想法</p>
+            <p className="text-xs text-gray-700">即時碎碎念與想法</p>
           </div>
         </a>
 
@@ -83,7 +83,7 @@ export default function FollowPage() {
             <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
               聯絡我
             </h3>
-            <p className="text-xs text-gray-500">合作邀約或讀者來信</p>
+            <p className="text-xs text-gray-700">合作邀約或讀者來信</p>
           </div>
         </a>
       </div>
@@ -91,7 +91,7 @@ export default function FollowPage() {
       {/* 2. 電子報訂閱區塊 */}
       <div className="bg-navbar rounded-3xl p-8 border border-orange-100/50 text-center">
         <h2 className="text-2xl font-bold text-heading mb-3">訂閱電子報 📩</h2>
-        <p className="text-sm text-gray-600 mb-6 max-w-md mx-auto">
+        <p className="text-sm text-gray-700 mb-6 max-w-md mx-auto">
           每週一封信，整理我最新的文章與行銷觀察，
           絕不發送垃圾郵件，隨時可以取消訂閱。
         </p>
