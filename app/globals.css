@@ -4,8 +4,8 @@
   /* 🧋 黑糖珍奶配色系統 (Bubble Tea Theme) */
   --color-cream-white: #fdfcf8; /* 鮮奶 (背景) - 溫潤不刺眼的米白 */
   --color-milk-tea: #f4efe9; /* 奶茶 (Navbar/Footer) - 淡雅的奶茶色 */
-  --color-brown-sugar: #b06d43; /* 黑糖焦糖 (主色/按鈕/連結) - 溫暖的橘褐 */
-  --color-brown-sugar-dark: #8a522f; /* 焦黑糖 (Hover) - 深一點的焦糖 */
+  --color-brown-sugar: #8a522f; /* 黑糖焦糖 (主色/按鈕/連結) - 確保對比度足夠的深焦糖 */
+  --color-brown-sugar-dark: #6b3f23; /* 焦黑糖 (Hover) - 更深的焦糖 */
   --color-tapioca-black: #2e2118; /* 黑珍珠 (標題) - 極深棕色，代替純黑 */
   --color-coffee-brown: #43362e; /* 深咖啡 (內文) - 適合閱讀的深色 */
   --color-milk-candy: #e8ded4; /* 牛奶糖 (標籤背景) - 柔和的淺褐 */

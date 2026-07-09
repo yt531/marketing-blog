@@ -21,6 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-TW">
+      <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+      </head>
       {/* 這裡保留 flex 設定是為了讓 WebsiteLayout 裡的 flex-grow 生效 */}
       <body
         className={`${inter.className} antialiased min-h-screen flex flex-col`}
