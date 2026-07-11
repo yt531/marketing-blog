@@ -1,4 +1,37 @@
-import Link from "next/link";
+const SOCIAL_LINKS = [
+  {
+    name: "Instagram",
+    description: "生活日常與圖文懶人包",
+    url: "https://instagram.com",
+    icon: "📸",
+    iconBgColor: "bg-pink-50",
+    isExternal: true,
+  },
+  {
+    name: "Facebook",
+    description: "行銷觀點與社團討論",
+    url: "https://facebook.com",
+    icon: "📘",
+    iconBgColor: "bg-blue-50",
+    isExternal: true,
+  },
+  {
+    name: "Threads",
+    description: "即時碎碎念與想法",
+    url: "https://threads.net",
+    icon: "🧵",
+    iconBgColor: "bg-gray-100",
+    isExternal: true,
+  },
+  {
+    name: "聯絡我",
+    description: "合作邀約或讀者來信",
+    url: "mailto:your-email@example.com",
+    icon: "📮",
+    iconBgColor: "bg-orange-50",
+    isExternal: false,
+  },
+];
 
 export default function FollowPage() {
   return (
@@ -17,75 +50,27 @@ export default function FollowPage() {
 
       {/* 1. 社群連結區塊 (Grid 排版) */}
       <div className="grid md:grid-cols-2 gap-4 mb-16">
-        {/* Instagram 卡片 */}
-        <a
-          href="https://instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center p-5 bg-white border border-orange-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group"
-        >
-          <div className="w-12 h-12 bg-pink-50 rounded-full flex items-center justify-center text-2xl mr-4 group-hover:scale-110 transition-transform">
-            📸
-          </div>
-          <div>
-            <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
-              Instagram
-            </h3>
-            <p className="text-xs text-gray-700">生活日常與圖文懶人包</p>
-          </div>
-        </a>
-
-        {/* Facebook 卡片 */}
-        <a
-          href="https://facebook.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center p-5 bg-white border border-orange-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group"
-        >
-          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-2xl mr-4 group-hover:scale-110 transition-transform">
-            📘
-          </div>
-          <div>
-            <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
-              Facebook
-            </h3>
-            <p className="text-xs text-gray-700">行銷觀點與社團討論</p>
-          </div>
-        </a>
-
-        {/* Threads / 其他連結 */}
-        <a
-          href="https://threads.net"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center p-5 bg-white border border-orange-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group"
-        >
-          <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-2xl mr-4 group-hover:scale-110 transition-transform">
-            🧵
-          </div>
-          <div>
-            <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
-              Threads
-            </h3>
-            <p className="text-xs text-gray-700">即時碎碎念與想法</p>
-          </div>
-        </a>
-
-        {/* Email 聯絡 */}
-        <a
-          href="mailto:your-email@example.com"
-          className="flex items-center p-5 bg-white border border-orange-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group"
-        >
-          <div className="w-12 h-12 bg-orange-50 rounded-full flex items-center justify-center text-2xl mr-4 group-hover:scale-110 transition-transform">
-            📮
-          </div>
-          <div>
-            <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
-              聯絡我
-            </h3>
-            <p className="text-xs text-gray-700">合作邀約或讀者來信</p>
-          </div>
-        </a>
+        {SOCIAL_LINKS.map((link) => (
+          <a
+            key={link.name}
+            href={link.url}
+            target={link.isExternal ? "_blank" : undefined}
+            rel={link.isExternal ? "noopener noreferrer" : undefined}
+            className="flex items-center p-5 bg-white border border-orange-100 rounded-2xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group"
+          >
+            <div
+              className={`w-12 h-12 ${link.iconBgColor} rounded-full flex items-center justify-center text-2xl mr-4 group-hover:scale-110 transition-transform`}
+            >
+              {link.icon}
+            </div>
+            <div>
+              <h3 className="font-bold text-heading group-hover:text-primary transition-colors">
+                {link.name}
+              </h3>
+              <p className="text-xs text-gray-700">{link.description}</p>
+            </div>
+          </a>
+        ))}
       </div>
 
       {/* 2. 電子報訂閱區塊 */}
